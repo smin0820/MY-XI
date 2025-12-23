@@ -6,10 +6,10 @@ import SignUp from "./pages/SignUp";
 export default function RootRoute() {
   return (
     <Routes>
-      <Route element={<GlobalLayout />}>
-        <Route path="/signin" element={<SignIn />} />
-        <Route path="/signup" element={<SignUp />} />
+      <Route path="/signin" element={<SignIn />} />
+      <Route path="/signup" element={<SignUp />} />
 
+      <Route element={<GlobalLayout />}>
         <Route path="/" />
         <Route path="about" />
         <Route path="*" element={<Navigate to={"/"} />} />
