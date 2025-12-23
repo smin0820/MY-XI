@@ -2,9 +2,23 @@ import logo from "@/assets/logo-transparent.png";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useSignUp } from "@/hooks/mutations/useSignUp";
+import { useState } from "react";
 import { Link } from "react-router";
 
 export default function SignUp() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const { mutate: signUp } = useSignUp();
+
+  const handleSignUpClick = () => {
+    if (email.trim() === "") return;
+    if (password.trim() === "") return;
+
+    signUp({ email, password });
+  };
+
   return (
     <div className="flex min-h-screen flex-col md:flex-row">
       <div className="bg-brand-green flex w-full items-center justify-center md:w-1/2">
@@ -36,11 +50,11 @@ export default function SignUp() {
                 이메일
               </Label>
               <Input
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="py-6"
                 type="email"
                 placeholder="이메일 주소를 입력해 주세요"
-                id="email"
-                name="email"
               />
             </div>
 
@@ -52,23 +66,26 @@ export default function SignUp() {
                 비밀번호
               </Label>
               <Input
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 className="py-6"
                 type="password"
                 placeholder="비밀번호를 입력해 주세요"
-                id="password"
-                name="password"
               />
               <p className="text-muted-foreground text-sm">6자리 이상</p>
             </div>
 
-            <Button type="submit" className="cursor-pointer rounded-full py-6">
+            <Button
+              onClick={handleSignUpClick}
+              className="cursor-pointer rounded-full py-6"
+            >
               가입하기
             </Button>
 
             <div>
               <Link
                 className="text-muted-foreground hover:underline"
-                to={"/signIn"}
+                to={"/signin"}
               >
                 이미 계정이 있으신가요? 로그인하기
               </Link>
