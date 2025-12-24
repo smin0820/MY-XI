@@ -2,12 +2,29 @@ import logo from "@/assets/logo-transparent.png";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useSignInWithOAuth } from "@/hooks/mutations/useSignInWithOAuth";
+import { useSignInWithPassword } from "@/hooks/mutations/useSignInWithPassword";
 import { useState } from "react";
 import { Link } from "react-router";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const { mutate: signInWithPassword } = useSignInWithPassword();
+  const { mutate: signInWithOAuth } = useSignInWithOAuth();
+
+  const handleSignInWithPasswordClick = () => {
+    if (email.trim() === "") return;
+    if (password.trim() === "") return;
+
+    signInWithPassword({ email, password });
+  };
+
+  const handleSignInWithOAuthClick = () => {
+    signInWithOAuth("kakao");
+  };
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-50">
       <div className="w-full max-w-md rounded-lg bg-white p-8 shadow">
@@ -50,10 +67,21 @@ export default function SignIn() {
                 type="password"
                 placeholder="비밀번호를 입력해 주세요"
               />
-              <p className="text-muted-foreground text-sm">6자리 이상</p>
             </div>
-
-            <Button className="cursor-pointer rounded-full py-5">로그인</Button>
+            <div className="flex flex-col gap-2">
+              <Button
+                onClick={handleSignInWithPasswordClick}
+                className="cursor-pointer rounded-full py-5"
+              >
+                로그인
+              </Button>
+              <Button
+                onClick={handleSignInWithOAuthClick}
+                className="cursor-pointer rounded-full bg-[#F7E600] py-5 text-black hover:bg-[#F7E600]/80"
+              >
+                카카오로 시작하기
+              </Button>
+            </div>
 
             <div className="text-center">
               <Link
