@@ -13,24 +13,26 @@ export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { mutate: signInWithPassword } = useSignInWithPassword({
-    onError: (error) => {
-      const message = generateErrorMessage(error);
+  const { mutate: signInWithPassword, isPending: isSignInWithPasswordPending } =
+    useSignInWithPassword({
+      onError: (error) => {
+        const message = generateErrorMessage(error);
 
-      toast.error(message, {
-        position: "top-center",
-      });
-      setPassword("");
-    },
-  });
-  const { mutate: signInWithOAuth } = useSignInWithOAuth({
-    onError: (error) => {
-      const message = generateErrorMessage(error);
-      toast.error(message, {
-        position: "top-center",
-      });
-    },
-  });
+        toast.error(message, {
+          position: "top-center",
+        });
+        setPassword("");
+      },
+    });
+  const { mutate: signInWithOAuth, isPending: isSignInWithOAuthPending } =
+    useSignInWithOAuth({
+      onError: (error) => {
+        const message = generateErrorMessage(error);
+        toast.error(message, {
+          position: "top-center",
+        });
+      },
+    });
 
   const handleSignInWithPasswordClick = () => {
     if (email.trim() === "") return;
@@ -42,6 +44,8 @@ export default function SignIn() {
   const handleSignInWithOAuthClick = () => {
     signInWithOAuth("kakao");
   };
+
+  const isPending = isSignInWithPasswordPending || isSignInWithOAuthPending;
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-50">
@@ -63,6 +67,7 @@ export default function SignIn() {
                 이메일
               </Label>
               <Input
+                disabled={isPending}
                 className="py-5"
                 type="email"
                 placeholder="이메일 주소를 입력해 주세요"
@@ -79,6 +84,7 @@ export default function SignIn() {
                 비밀번호
               </Label>
               <Input
+                disabled={isPending}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="py-5"
@@ -88,12 +94,14 @@ export default function SignIn() {
             </div>
             <div className="flex flex-col gap-2">
               <Button
+                disabled={isPending}
                 onClick={handleSignInWithPasswordClick}
                 className="cursor-pointer rounded-full py-5"
               >
                 로그인
               </Button>
               <Button
+                disabled={isPending}
                 onClick={handleSignInWithOAuthClick}
                 className="cursor-pointer rounded-full bg-[#F7E600] py-5 text-black hover:bg-[#F7E600]/80"
               >

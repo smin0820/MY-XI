@@ -12,7 +12,7 @@ export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { mutate: signUp } = useSignUp({
+  const { mutate: signUp, isPending: isSignUpPending } = useSignUp({
     onError: (error) => {
       const message = generateErrorMessage(error);
       toast.error(message, {
@@ -59,6 +59,7 @@ export default function SignUp() {
                 이메일
               </Label>
               <Input
+                disabled={isSignUpPending}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="py-6"
@@ -75,6 +76,7 @@ export default function SignUp() {
                 비밀번호
               </Label>
               <Input
+                disabled={isSignUpPending}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="py-6"
@@ -85,6 +87,7 @@ export default function SignUp() {
             </div>
 
             <Button
+              disabled={isSignUpPending}
               onClick={handleSignUpClick}
               className="cursor-pointer rounded-full py-6"
             >
