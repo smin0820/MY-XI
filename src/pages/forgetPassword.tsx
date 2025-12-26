@@ -2,14 +2,37 @@ import logo from "@/assets/logo-transparent.png";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useRequestPasswordResetEmail } from "@/hooks/mutations/useRequestPasswordResetEmail";
+import { generateErrorMessage } from "@/lib/error";
 import { useState } from "react";
 import { Link } from "react-router";
+import { toast } from "sonner";
 
 export default function ForgetPassword() {
   const [email, setEmail] = useState("");
 
+  const {
+    mutate: requestPasswordResetEmail,
+    isPending: isRequestingPasswordResetEmailPending,
+  } = useRequestPasswordResetEmail({
+    onSuccess: () => {
+      toast.info("인증 메일이 잘 발송되었습니다.", {
+        position: "top-center",
+      });
+      setEmail("");
+    },
+    onError: (error) => {
+      const message = generateErrorMessage(error);
+      toast.error(message, {
+        position: "top-center",
+      });
+      setEmail("");
+    },
+  });
+
   const handleSendEmailClick = () => {
     if (email.trim() === "") return;
+    requestPasswordResetEmail(email);
   };
   return (
     <div className="flex min-h-screen flex-col md:flex-row">
@@ -44,6 +67,7 @@ export default function ForgetPassword() {
                 이메일
               </Label>
               <Input
+                disabled={isRequestingPasswordResetEmailPending}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="py-6"
@@ -55,7 +79,11 @@ export default function ForgetPassword() {
               </p>
             </div>
 
-            <Button className="cursor-pointer rounded-full py-6">
+            <Button
+              disabled={isRequestingPasswordResetEmailPending}
+              onClick={handleSendEmailClick}
+              className="cursor-pointer rounded-full py-6"
+            >
               인증 메일 요청하기
             </Button>
 
