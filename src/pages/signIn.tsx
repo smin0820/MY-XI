@@ -109,12 +109,18 @@ export default function SignIn() {
               </Button>
             </div>
 
-            <div className="text-center">
+            <div className="flex flex-col gap-2 text-center">
               <Link
                 className="text-muted-foreground hover:underline"
                 to={"/signup"}
               >
                 계정이 없으신가요? 회원가입
+              </Link>
+              <Link
+                className="text-muted-foreground hover:underline"
+                to={"/ForgetPassword"}
+              >
+                비밀번호를 잊으셨나요?
               </Link>
             </div>
           </div>

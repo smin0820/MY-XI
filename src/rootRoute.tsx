@@ -4,6 +4,7 @@ import SignIn from "./pages/signIn";
 import SignUp from "./pages/signUp";
 import GuestOnlyLayout from "./components/layout/guestOnlyLayout";
 import MemberOnlyLayout from "./components/layout/memberOnlyLayout";
+import ForgetPassword from "./pages/forgetPassword";
 
 export default function RootRoute() {
   return (
@@ -11,6 +12,7 @@ export default function RootRoute() {
       <Route element={<GuestOnlyLayout />}>
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/forgetPassword" element={<ForgetPassword />} />
       </Route>
 
       <Route element={<GlobalLayout />}>
