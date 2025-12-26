@@ -1,3 +1,4 @@
+import GloabaLoader from "@/components/globalLoader";
 import supabase from "@/lib/supabase";
 import { useIsSessionLoaded, useSetSession } from "@/store/session";
 import { useEffect, type ReactNode } from "react";
@@ -12,7 +13,7 @@ export default function SessionProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
-  if (!isSessionLoaded) return <div>로딩중...</div>;
+  if (!isSessionLoaded) return <GloabaLoader />;
 
   return children;
 }
