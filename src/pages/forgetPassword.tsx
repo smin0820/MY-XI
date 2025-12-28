@@ -44,7 +44,9 @@ export default function ForgetPassword() {
             className="mx-auto h-32 brightness-0 invert filter"
           />
           <h1 className="mt-6 text-3xl font-bold tracking-wide">MY XI</h1>
-          <p className="mt-2 text-sm opacity-90">내가 뽑은 베스트 11</p>
+          <p className="mt-2 text-sm opacity-90">
+            직접 설계하는 나만의 베스트 11 전술 보드
+          </p>
         </div>
       </div>
 

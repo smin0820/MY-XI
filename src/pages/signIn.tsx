@@ -51,10 +51,19 @@ export default function SignIn() {
     <div className="flex min-h-screen items-center justify-center bg-gray-50">
       <div className="w-full max-w-md rounded-lg bg-white p-8 shadow">
         <div className="flex items-center justify-center gap-4">
-          <img src={logo} alt="Formation-Lab 로고" className="h-12" />
-          <h1 className="text-brand-green text-2xl font-bold tracking-wide sm:text-3xl">
-            MY XI
-          </h1>
+          <div className="flex items-center gap-3">
+            <div className="rounded-full bg-slate-100 p-2">
+              <img src={logo} alt="MY XI 로고" className="h-12 sm:h-14" />
+            </div>
+            <div className="text-left">
+              <h1 className="text-brand-green text-2xl font-bold tracking-wide sm:text-3xl">
+                MY XI
+              </h1>
+              <p className="text-muted-foreground text-sm">
+                내가 뽑은 베스트 11
+              </p>
+            </div>
+          </div>
         </div>
 
         <div className="mt-6">
