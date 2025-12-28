@@ -53,7 +53,7 @@ export default function SignIn() {
         <div className="flex items-center justify-center gap-4">
           <img src={logo} alt="Formation-Lab 로고" className="h-12" />
           <h1 className="text-brand-green text-2xl font-bold tracking-wide sm:text-3xl">
-            Formation-Lab
+            MY XI
           </h1>
         </div>
 
