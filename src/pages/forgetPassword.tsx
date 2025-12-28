@@ -43,12 +43,8 @@ export default function ForgetPassword() {
             alt="Formation-Lab 로고"
             className="mx-auto h-32 brightness-0 invert filter"
           />
-          <h1 className="mt-6 text-3xl font-bold tracking-wide">
-            Formation-Lab
-          </h1>
-          <p className="mt-2 text-sm opacity-90">
-            간편한 축구 포메이션 생성 및 공유
-          </p>
+          <h1 className="mt-6 text-3xl font-bold tracking-wide">MY XI</h1>
+          <p className="mt-2 text-sm opacity-90">내가 뽑은 베스트 11</p>
         </div>
       </div>
 
