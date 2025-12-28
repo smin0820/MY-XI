@@ -1,4 +1,4 @@
-import logo from "@/assets/logo-transparent.png";
+import logo from "@/assets/logo.png";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -30,7 +30,7 @@ export default function SignUp() {
 
   return (
     <div className="flex min-h-screen flex-col md:flex-row">
-      <div className="bg-brand-green flex w-full items-center justify-center md:w-1/2">
+      <div className="bg-brand flex w-full items-center justify-center md:w-1/2">
         <div className="max-w-sm p-8 text-center text-white">
           <img
             src={logo}

@@ -1,4 +1,4 @@
-import logo from "@/assets/logo-transparent.png";
+import logo from "@/assets/logo.png";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -56,7 +56,7 @@ export default function SignIn() {
               <img src={logo} alt="MY XI 로고" className="h-12 sm:h-14" />
             </div>
             <div className="text-left">
-              <h1 className="text-brand-green text-2xl font-bold tracking-wide sm:text-3xl">
+              <h1 className="text-brand text-2xl font-bold tracking-wide sm:text-3xl">
                 MY XI
               </h1>
               <p className="text-muted-foreground text-sm">

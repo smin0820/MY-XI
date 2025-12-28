@@ -25,7 +25,7 @@
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
-  --color-brand-green: var(--brand-green);
+  --color-brand: var(--brand);
   --color-destructive: var(--destructive);
   --color-border: var(--border);
   --color-input: var(--input);
@@ -47,7 +47,7 @@
 
 :root {
   --radius: 0.625rem;
-  --brand-green: #6FAF1A;
+  --brand: #E6002D;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);

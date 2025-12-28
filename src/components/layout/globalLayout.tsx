@@ -8,13 +8,10 @@ export default function GlobalLayout() {
       <header className="h-15 border-b">
         <div className="m-auto flex h-full w-full max-w-5/6 justify-between px-4">
           <Link to={"/"} className="flex items-center">
-            <img
-              className="h-10"
-              src={logo}
-              alt="축구 포메이션 메이커 서비스 로고"
-            />
-            <div className="font-bold">Formation-Lab</div>
+            <img className="h-10" src={logo} alt="MY XI 서비스 로고" />
+            <div className="font-bold">MY XI</div>
           </Link>
+
           <div className="flex items-center">
             <img
               className="h-10"
