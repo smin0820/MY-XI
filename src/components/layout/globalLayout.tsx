@@ -1,6 +1,6 @@
 import { Link, Outlet } from "react-router";
 import logo from "@/assets/logo.png";
-import defaultAvatar from "@/assets/default-avatar.png";
+import defaultAvatar from "@/assets/default-avatar-bg-white.png";
 
 export default function GlobalLayout() {
   return (
@@ -14,7 +14,7 @@ export default function GlobalLayout() {
 
           <div className="flex items-center">
             <img
-              className="h-10"
+              className="h-9 cursor-pointer rounded-full hover:opacity-80"
               src={defaultAvatar}
               alt="기본 프로필 이미지"
             />

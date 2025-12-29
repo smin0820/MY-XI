@@ -6,6 +6,8 @@ import GuestOnlyLayout from "./components/layout/guestOnlyLayout";
 import MemberOnlyLayout from "./components/layout/memberOnlyLayout";
 import ForgetPassword from "./pages/forgetPassword";
 import ResetPassword from "./pages/resetPassword";
+import Index from "./pages";
+import Test from "./pages/test";
 
 export default function RootRoute() {
   return (
@@ -18,7 +20,8 @@ export default function RootRoute() {
 
       <Route element={<GlobalLayout />}>
         <Route element={<MemberOnlyLayout />}>
-          <Route path="/" />
+          <Route path="/" element={<Index />} />
+          <Route path="test" element={<Test />} />
           <Route path="about" />
           <Route path="resetpassword" element={<ResetPassword />} />
           <Route path="*" element={<Navigate to={"/"} />} />
