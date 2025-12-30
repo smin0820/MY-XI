@@ -8,6 +8,8 @@ import ForgetPassword from "./pages/forgetPassword";
 import ResetPassword from "./pages/resetPassword";
 import Index from "./pages";
 import Test from "./pages/test";
+import Admin from "./pages/admin";
+import AdminOnlyLayout from "./components/layout/adminOnlyLayout";
 
 export default function RootRoute() {
   return (
@@ -25,6 +27,9 @@ export default function RootRoute() {
           <Route path="about" />
           <Route path="resetpassword" element={<ResetPassword />} />
           <Route path="*" element={<Navigate to={"/"} />} />
+          <Route element={<AdminOnlyLayout />}>
+            <Route path="admin" element={<Admin />} />
+          </Route>
         </Route>
       </Route>
     </Routes>

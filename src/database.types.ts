@@ -14,6 +14,33 @@ export type Database = {
   }
   public: {
     Tables: {
+      players: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          id: number
+          name: string
+          name_en: string
+          team_name: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          id?: number
+          name?: string
+          name_en?: string
+          team_name?: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          id?: number
+          name?: string
+          name_en?: string
+          team_name?: string
+        }
+        Relationships: []
+      }
       profile: {
         Row: {
           avatar_url: string | null
@@ -21,6 +48,7 @@ export type Database = {
           created_at: string
           id: string
           nickname: string
+          role: string
         }
         Insert: {
           avatar_url?: string | null
@@ -28,6 +56,7 @@ export type Database = {
           created_at?: string
           id?: string
           nickname?: string
+          role?: string
         }
         Update: {
           avatar_url?: string | null
@@ -35,6 +64,7 @@ export type Database = {
           created_at?: string
           id?: string
           nickname?: string
+          role?: string
         }
         Relationships: []
       }
