@@ -1,10 +1,10 @@
-import { createPlayer } from "@/api/player";
+import { createPlayer, createPlayerWithAvatar } from "@/api/player";
 import type { useMutationCallback } from "@/types";
 import { useMutation } from "@tanstack/react-query";
 
 export function useCreatePlayer(callbacks?: useMutationCallback) {
   return useMutation({
-    mutationFn: createPlayer,
+    mutationFn: createPlayerWithAvatar,
     onSuccess: () => {
       if (callbacks?.onSuccess) callbacks.onSuccess();
     },
