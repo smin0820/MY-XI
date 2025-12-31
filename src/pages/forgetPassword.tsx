@@ -2,7 +2,7 @@ import logo from "@/assets/logo.png";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useRequestPasswordResetEmail } from "@/hooks/mutations/useRequestPasswordResetEmail";
+import { useRequestPasswordResetEmail } from "@/hooks/mutations/auth/useRequestPasswordResetEmail";
 import { generateErrorMessage } from "@/lib/error";
 import { useState } from "react";
 import { Link } from "react-router";

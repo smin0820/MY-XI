@@ -14,7 +14,7 @@ export type Database = {
   }
   public: {
     Tables: {
-      players: {
+      player: {
         Row: {
           avatar_url: string | null
           created_at: string
