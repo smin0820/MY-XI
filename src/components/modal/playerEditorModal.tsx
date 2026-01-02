@@ -12,6 +12,7 @@ import { useCreatePlayer } from "@/hooks/mutations/player/useCreatePlayer";
 import { toast } from "sonner";
 import defaultAvatar from "@/assets/default-avatar-bg-white.png";
 import { useSession } from "@/store/session";
+import { useOpenAlertModal } from "@/store/alertModal";
 
 type Image = {
   file: File;
@@ -20,15 +21,17 @@ type Image = {
 
 export default function PlayerEditorModal() {
   const session = useSession();
-
   const { isOpen, close } = usePlayerEditorModal();
+  const openAlertModal = useOpenAlertModal();
+
   const { mutate: createPlayer, isPending: isCreatePlayerPending } =
     useCreatePlayer({
       onSuccess: () => {
         toast.success("선수가 성공적으로 추가되었습니다.", {
           position: "top-center",
         });
-        closeModal();
+        resetForm();
+        close();
       },
       onError: (error) => {
         toast.error("선수 생성에 실패했습니다.", {
@@ -49,15 +52,31 @@ export default function PlayerEditorModal() {
     setNameEn("");
     setTeamName("");
 
-    if (avatarImage) {
-      URL.revokeObjectURL(avatarImage.previewUrl);
-    }
+    if (avatarImage) URL.revokeObjectURL(avatarImage.previewUrl);
+
     setAvatarImage(null);
 
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
   const closeModal = () => {
+    if (
+      name !== "" ||
+      nameEn !== "" ||
+      teamName !== "" ||
+      avatarImage !== null
+    ) {
+      openAlertModal({
+        title: "선수 추가를 취소하시겠어요?",
+        description: "지금 나가면 작성 중인 선수 정보가 저장되지 않습니다.",
+        onPositive: () => {
+          resetForm();
+          close();
+        },
+        onNegative: () => {},
+      });
+      return;
+    }
     resetForm();
     close();
   };
@@ -67,15 +86,17 @@ export default function PlayerEditorModal() {
   };
 
   const handleCreatePlayerClick = () => {
-    if (name.trim() === "") return;
-    if (nameEn.trim() === "") return;
-    if (teamName.trim() === "") return;
+    if (!session) return;
+
+    if (name.trim() === "" || teamName.trim() === "" || nameEn.trim() === "")
+      return;
+
     createPlayer({
       name,
       nameEn,
       teamName,
-      avatarFile: avatarImage!.file,
-      userId: session!.user.id,
+      avatarFile: avatarImage?.file,
+      userId: session.user.id,
     });
   };
 
@@ -115,7 +136,7 @@ export default function PlayerEditorModal() {
             if (fileInputRef.current) fileInputRef.current.click();
           }}
           src={avatarImage?.previewUrl || defaultAvatar}
-          className="ring-muted/30 mx-auto h-28 w-28 cursor-pointer rounded-full object-cover shadow-md ring-1 transition-transform hover:scale-105"
+          className="ring-muted/30 mx-auto h-28 w-28 cursor-pointer rounded-full object-cover object-top ring-1 transition-transform hover:scale-105"
         />
         <div className="text-muted-foreground w-full text-sm">선수 이름</div>
         <Input

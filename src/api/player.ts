@@ -35,7 +35,7 @@ export async function createPlayerWithAvatar({
   name: string;
   nameEn: string;
   teamName: string;
-  avatarFile: File;
+  avatarFile?: File;
   userId: string;
 }) {
   // 1 새로운 플레이어 생성
