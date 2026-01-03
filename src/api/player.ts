@@ -2,6 +2,16 @@ import supabase from "@/lib/supabase";
 import { uploadImage } from "./image";
 import type { PlayerEntity } from "@/types";
 
+export async function fetchPlayers() {
+  const { data, error } = await supabase
+    .from("player")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) throw error;
+  return data;
+}
+
 export async function createPlayer({
   name,
   nameEn,

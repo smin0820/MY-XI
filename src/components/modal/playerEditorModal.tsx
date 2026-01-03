@@ -116,62 +116,94 @@ export default function PlayerEditorModal() {
 
   return (
     <Dialog open={isOpen} onOpenChange={handleCloseModal}>
-      <DialogContent className="flex max-h-[90vh] w-full max-w-xl flex-col items-center gap-3 rounded-xl border p-6 shadow-lg">
-        <DialogTitle>선수 추가</DialogTitle>
-        <DialogDescription>
-          선수 프로필과 소속정보를 입력해주세요.
+      <DialogContent className="bg-background w-full max-w-xl rounded-xl border p-6 shadow-lg">
+        <DialogTitle className="text-lg font-semibold">선수 추가</DialogTitle>
+        <DialogDescription className="text-muted-foreground text-sm">
+          선수 프로필과 소속 정보를 입력해주세요.
         </DialogDescription>
-        <div className="text-muted-foreground w-full text-center text-sm font-medium">
-          선수 프로필
+
+        {/* 프로필 섹션 */}
+        <div className="mt-6 flex items-center gap-4">
+          <input
+            onChange={handleSelectImage}
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+          />
+
+          <img
+            onClick={() => fileInputRef.current?.click()}
+            src={avatarImage?.previewUrl || defaultAvatar}
+            className="ring-border h-24 w-24 cursor-pointer rounded-full object-cover object-top ring-1 transition hover:opacity-90"
+          />
+
+          <div className="flex flex-col gap-2">
+            <Button
+              className="cursor-pointer"
+              size="sm"
+              variant="secondary"
+              onClick={() => fileInputRef.current?.click()}
+            >
+              이미지 업로드
+            </Button>
+
+            {avatarImage && (
+              <Button
+                className="cursor-pointer"
+                size="sm"
+                variant="ghost"
+                onClick={() => setAvatarImage(null)}
+              >
+                이미지 제거
+              </Button>
+            )}
+          </div>
         </div>
-        <input
-          onChange={handleSelectImage}
-          ref={fileInputRef}
-          type="file"
-          accept="image/*"
-          className="hidden"
-        />
-        <img
-          onClick={() => {
-            if (fileInputRef.current) fileInputRef.current.click();
-          }}
-          src={avatarImage?.previewUrl || defaultAvatar}
-          className="ring-muted/30 mx-auto h-28 w-28 cursor-pointer rounded-full object-cover object-top ring-1 transition-transform hover:scale-105"
-        />
-        <div className="text-muted-foreground w-full text-sm">선수 이름</div>
-        <Input
-          className="mt-1 w-full"
-          disabled={isCreatePlayerPending}
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          id="name"
-          placeholder="예: 손흥민"
-        />
-        <div className="text-muted-foreground w-full text-sm">영문 이름</div>
-        <Input
-          className="mt-1 w-full"
-          disabled={isCreatePlayerPending}
-          value={nameEn}
-          onChange={(e) => setNameEn(e.target.value)}
-          id="name_en"
-          placeholder="e.g. SON Heungmin"
-        />
-        <div className="text-muted-foreground w-full text-sm">소속팀</div>
-        <Input
-          className="mt-1 w-full"
-          disabled={isCreatePlayerPending}
-          value={teamName}
-          onChange={(e) => setTeamName(e.target.value)}
-          id="team_name"
-          placeholder="예: 로스앤젤레스 FC"
-        />
-        <Button
-          disabled={isCreatePlayerPending}
-          onClick={handleCreatePlayerClick}
-          className="mt-4 w-full cursor-pointer"
-        >
-          저장
-        </Button>
+
+        {/* 입력 폼 */}
+        <div className="mt-6 space-y-4">
+          <div>
+            <label className="text-sm font-medium">선수 이름</label>
+            <Input
+              disabled={isCreatePlayerPending}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="예: 손흥민"
+            />
+          </div>
+
+          <div>
+            <label className="text-sm font-medium">영문 이름</label>
+            <Input
+              disabled={isCreatePlayerPending}
+              value={nameEn}
+              onChange={(e) => setNameEn(e.target.value)}
+              placeholder="e.g. SON Heungmin"
+            />
+          </div>
+
+          <div>
+            <label className="text-sm font-medium">소속팀</label>
+            <Input
+              disabled={isCreatePlayerPending}
+              value={teamName}
+              onChange={(e) => setTeamName(e.target.value)}
+              placeholder="예: 로스앤젤레스 FC"
+            />
+          </div>
+        </div>
+
+        {/* 액션 */}
+        <div className="mt-6 flex justify-end gap-2">
+          <Button
+            className="cursor-pointer"
+            disabled={isCreatePlayerPending}
+            onClick={handleCreatePlayerClick}
+          >
+            저장
+          </Button>
+        </div>
       </DialogContent>
     </Dialog>
   );

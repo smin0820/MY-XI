@@ -31,10 +31,16 @@ export default function AlertModal() {
           <AlertDialogDescription>{store.description}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel onClick={handleCancelClick}>
+          <AlertDialogCancel
+            className="cursor-pointer"
+            onClick={handleCancelClick}
+          >
             취소
           </AlertDialogCancel>
-          <AlertDialogAction onClick={handleActionClick}>
+          <AlertDialogAction
+            className="cursor-pointer"
+            onClick={handleActionClick}
+          >
             확인
           </AlertDialogAction>
         </AlertDialogFooter>

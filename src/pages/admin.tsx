@@ -1,11 +1,11 @@
-import { Button } from "@/components/ui/button";
-import { useOpenPlayerEditorModal } from "@/store/playerEditorModal";
+import CreatePlayerButton from "@/components/admin/player/createPlayerButton";
+import PlayerList from "@/components/admin/player/playerList";
 
 export default function Admin() {
-  const openPlayerEditorModal = useOpenPlayerEditorModal();
   return (
-    <div>
-      <Button onClick={openPlayerEditorModal}>선수 추가</Button>
-    </div>
+    <>
+      <CreatePlayerButton />
+      <PlayerList />
+    </>
   );
 }
