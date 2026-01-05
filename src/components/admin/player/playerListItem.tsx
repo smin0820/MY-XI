@@ -1,7 +1,6 @@
-import { Button } from "@/components/ui/button";
 import type { PlayerEntity } from "@/types";
-import { X } from "lucide-react";
 import EditPlayerButton from "./editPlayerButton";
+import DeletePlayerButton from "./deletePlayerButton";
 
 export default function PlayerListItem(player: PlayerEntity) {
   return (
@@ -48,13 +47,7 @@ export default function PlayerListItem(player: PlayerEntity) {
       {/* 액션 */}
       <div className="flex items-center justify-end gap-2">
         <EditPlayerButton {...player} />
-        <Button
-          size="icon-lg"
-          variant="ghost"
-          className="text-destructive focus-visible:ring-destructive/30 cursor-pointer rounded-full focus-visible:ring-2 focus-visible:outline-none"
-        >
-          <X />
-        </Button>
+        <DeletePlayerButton id={player.id} />
       </div>
     </div>
   );

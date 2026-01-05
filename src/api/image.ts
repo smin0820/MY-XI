@@ -19,3 +19,16 @@ export async function uploadImage({
   } = supabase.storage.from(BUCKET_NAME).getPublicUrl(filePath);
   return publicUrl;
 }
+
+export async function deleteImageInPath(path: string) {
+  const { data: files, error: fetchFileError } = await supabase.storage
+    .from(BUCKET_NAME)
+    .list(path);
+
+  if (fetchFileError) throw Error;
+  const { error: removeError } = await supabase.storage
+    .from(BUCKET_NAME)
+    .remove(files.map((file) => `${path}/${file.name}`));
+
+  if (removeError) throw Error;
+}
