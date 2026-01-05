@@ -47,7 +47,7 @@ export default function PlayerListItem(player: PlayerEntity) {
 
       {/* 액션 */}
       <div className="flex items-center justify-end gap-2">
-        <EditPlayerButton />
+        <EditPlayerButton {...player} />
         <Button
           size="icon-lg"
           variant="ghost"
