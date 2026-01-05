@@ -16,7 +16,7 @@ import { useOpenAlertModal } from "@/store/alertModal";
 import { useUpdatePlayer } from "@/hooks/mutations/player/useUpdatePlayer";
 
 type Image = {
-  file?: File | null;
+  file?: File;
   previewUrl: string;
 };
 
@@ -60,8 +60,6 @@ export default function PlayerEditorModal() {
   const [nameEn, setNameEn] = useState("");
   const [teamName, setTeamName] = useState("");
   const [avatarImage, setAvatarImage] = useState<Image | null>(null);
-  const [avatarPreviewUrl, setAvatarPreviewUrl] = useState<string | null>(null);
-  const [avatarRemoved, setAvatarRemoved] = useState(false); // in edit mode, user removed existing avatar
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const avatarImageRef = useRef<Image | null>(null);
@@ -79,8 +77,6 @@ export default function PlayerEditorModal() {
       URL.revokeObjectURL(avatarImageRef.current.previewUrl);
 
     setAvatarImage(null);
-    setAvatarPreviewUrl(null);
-    setAvatarRemoved(false);
 
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
@@ -90,8 +86,7 @@ export default function PlayerEditorModal() {
       name !== "" ||
       nameEn !== "" ||
       teamName !== "" ||
-      avatarImage !== null ||
-      avatarPreviewUrl !== null
+      avatarImage !== null
     ) {
       openAlertModal({
         title: isEditMode
@@ -118,26 +113,6 @@ export default function PlayerEditorModal() {
 
   const isValid =
     name.trim() !== "" && nameEn.trim() !== "" && teamName.trim() !== "";
-
-  const isDirty = (() => {
-    if (!isEditMode) {
-      return (
-        name !== "" ||
-        nameEn !== "" ||
-        teamName !== "" ||
-        avatarImage !== null ||
-        avatarPreviewUrl !== null
-      );
-    }
-
-    return (
-      name !== (playerEditorModal as any).name ||
-      nameEn !== (playerEditorModal as any).name_en ||
-      teamName !== (playerEditorModal as any).team_name ||
-      avatarRemoved ||
-      avatarImage !== null
-    );
-  })();
 
   const handleSavePlayerClick = () => {
     if (!session) return;
@@ -172,8 +147,6 @@ export default function PlayerEditorModal() {
 
     const url = URL.createObjectURL(file);
     setAvatarImage({ file, previewUrl: url });
-    setAvatarPreviewUrl(url);
-    setAvatarRemoved(false);
 
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
@@ -181,15 +154,14 @@ export default function PlayerEditorModal() {
   useEffect(() => {
     if (!playerEditorModal.isOpen) return;
 
-    const pm = playerEditorModal as any;
     if (playerEditorModal.type === "EDIT") {
       setTimeout(() => {
-        setName(pm.name ?? "");
-        setNameEn(pm.name_en ?? "");
-        setTeamName(pm.team_name ?? "");
-        setAvatarPreviewUrl(pm.avatar_url ?? null);
-        setAvatarRemoved(false);
-        setAvatarImage(null);
+        setName(playerEditorModal.name ?? "");
+        setNameEn(playerEditorModal.name_en ?? "");
+        setTeamName(playerEditorModal.team_name ?? "");
+        setAvatarImage({
+          previewUrl: playerEditorModal.avatar_url ?? defaultAvatar,
+        });
       }, 0);
     } else {
       resetForm();
@@ -211,7 +183,7 @@ export default function PlayerEditorModal() {
         {/* 프로필 섹션 */}
         <div className="mt-6 flex items-center gap-4">
           <input
-            disabled={isPending}
+            disabled={isPending || isEditMode}
             onChange={handleSelectImage}
             ref={fileInputRef}
             type="file"
@@ -220,41 +192,43 @@ export default function PlayerEditorModal() {
           />
 
           <img
-            onClick={() => fileInputRef.current?.click()}
-            src={avatarImage?.previewUrl || avatarPreviewUrl || defaultAvatar}
-            className="ring-border h-24 w-24 cursor-pointer rounded-full object-cover object-top ring-1 transition hover:opacity-90"
+            onClick={
+              isEditMode ? undefined : () => fileInputRef.current?.click()
+            }
+            src={avatarImage?.previewUrl || defaultAvatar}
+            className={`ring-border h-24 w-24 rounded-full object-cover object-top ring-1 transition ${isEditMode ? "cursor-default" : "cursor-pointer hover:opacity-90"}`}
           />
 
-          <div className="flex flex-col gap-2">
-            <Button
-              disabled={isPending}
-              className="cursor-pointer"
-              size="sm"
-              variant="secondary"
-              onClick={() => fileInputRef.current?.click()}
-            >
-              이미지 업로드
-            </Button>
-
-            {(avatarImage?.previewUrl || avatarPreviewUrl) && (
+          {!isEditMode && (
+            <div className="flex flex-col gap-2">
               <Button
                 disabled={isPending}
                 className="cursor-pointer"
                 size="sm"
-                variant="ghost"
-                onClick={() => {
-                  if (avatarImage && avatarImage.previewUrl) {
-                    URL.revokeObjectURL(avatarImage.previewUrl);
-                  }
-                  setAvatarImage(null);
-                  setAvatarPreviewUrl(null);
-                  setAvatarRemoved(true);
-                }}
+                variant="secondary"
+                onClick={() => fileInputRef.current?.click()}
               >
-                이미지 제거
+                이미지 업로드
               </Button>
-            )}
-          </div>
+
+              {avatarImage?.previewUrl && (
+                <Button
+                  disabled={isPending}
+                  className="cursor-pointer"
+                  size="sm"
+                  variant="ghost"
+                  onClick={() => {
+                    if (avatarImage && avatarImage.previewUrl) {
+                      URL.revokeObjectURL(avatarImage.previewUrl);
+                    }
+                    setAvatarImage(null);
+                  }}
+                >
+                  이미지 제거
+                </Button>
+              )}
+            </div>
+          )}
         </div>
 
         {/* 입력 폼 */}
