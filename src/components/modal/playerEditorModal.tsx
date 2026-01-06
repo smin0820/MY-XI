@@ -124,7 +124,7 @@ export default function PlayerEditorModal() {
         name,
         nameEn,
         teamName,
-        avatarFile: avatarImage?.file as unknown as File,
+        avatarFile: avatarImage?.file,
         userId: session.user.id,
       });
     } else if (playerEditorModal.type === "EDIT") {
@@ -133,7 +133,6 @@ export default function PlayerEditorModal() {
         name,
         name_en: nameEn,
         team_name: teamName,
-        avatar_url: avatarImage?.previewUrl,
       });
     }
   };

@@ -1,11 +1,14 @@
 import { deleteImageInPath } from "@/api/image";
 import { deletePlayer } from "@/api/player";
+import { QUERY_KEYS } from "@/lib/constants";
 import { useSession } from "@/store/session";
 import type { useMutationCallback } from "@/types";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export function useDeletePlayer(callbacks?: useMutationCallback) {
   const session = useSession();
+
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: deletePlayer,
     onSuccess: async (deletedPlayer) => {
@@ -14,6 +17,10 @@ export function useDeletePlayer(callbacks?: useMutationCallback) {
       if (deletedPlayer.avatar_url) {
         await deleteImageInPath(`${session?.user.id}/${deletedPlayer.id}`);
       }
+
+      queryClient.resetQueries({
+        queryKey: QUERY_KEYS.player.list,
+      });
     },
     onError: (error) => {
       if (callbacks?.onError) callbacks.onError(error);
