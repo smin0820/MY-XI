@@ -16,6 +16,7 @@ export type Database = {
     Tables: {
       player: {
         Row: {
+          author_id: string
           avatar_url: string | null
           created_at: string
           id: number
@@ -24,6 +25,7 @@ export type Database = {
           team_name: string
         }
         Insert: {
+          author_id?: string
           avatar_url?: string | null
           created_at?: string
           id?: number
@@ -32,6 +34,7 @@ export type Database = {
           team_name?: string
         }
         Update: {
+          author_id?: string
           avatar_url?: string | null
           created_at?: string
           id?: number
@@ -39,7 +42,15 @@ export type Database = {
           name_en?: string
           team_name?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "player_author_id_fkey"
+            columns: ["author_id"]
+            isOneToOne: false
+            referencedRelation: "profile"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       profile: {
         Row: {
@@ -67,6 +78,78 @@ export type Database = {
           role?: string
         }
         Relationships: []
+      }
+      squad: {
+        Row: {
+          coach_image_url: string | null
+          created_at: string
+          formation: string
+          id: string
+          title: string
+          user_id: string
+        }
+        Insert: {
+          coach_image_url?: string | null
+          created_at?: string
+          formation?: string
+          id?: string
+          title?: string
+          user_id?: string
+        }
+        Update: {
+          coach_image_url?: string | null
+          created_at?: string
+          formation?: string
+          id?: string
+          title?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      squad_slot: {
+        Row: {
+          created_at: string
+          id: string
+          player_id: number
+          pos_x: string
+          pos_y: string
+          slot_index: number
+          squad_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          player_id: number
+          pos_x?: string
+          pos_y?: string
+          slot_index: number
+          squad_id?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          player_id?: number
+          pos_x?: string
+          pos_y?: string
+          slot_index?: number
+          squad_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "squad_slot_player_id_fkey"
+            columns: ["player_id"]
+            isOneToOne: false
+            referencedRelation: "player"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "squad_slot_squad_id_fkey"
+            columns: ["squad_id"]
+            isOneToOne: false
+            referencedRelation: "squad"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
