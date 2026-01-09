@@ -10,5 +10,3 @@ export const QUERY_KEYS = {
     byId: (playerId: number) => ["player", "byId", playerId],
   },
 };
-
-export const BUCKET_NAME = "player-avatar";
