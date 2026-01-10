@@ -9,6 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import FormationSelect from "@/components/squad/formationSelect";
 
 const formations: Record<string, { left: string; top: string }[]> = {
   "4-3-3": [
@@ -136,6 +137,7 @@ export default function Test() {
             </SelectGroup>
           </SelectContent>
         </Select>
+        <FormationSelect />
       </div>
     </div>
   );
