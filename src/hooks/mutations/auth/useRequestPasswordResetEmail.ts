@@ -1,5 +1,5 @@
 import { requestPasswordResetEmail } from "@/api/auth";
-import type { useMutationCallback } from "@/types";
+import type { useMutationCallback } from "@/types/reactQuery";
 import { useMutation } from "@tanstack/react-query";
 
 export function useRequestPasswordResetEmail(callbacks?: useMutationCallback) {

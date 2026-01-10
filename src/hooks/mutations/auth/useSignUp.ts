@@ -1,5 +1,5 @@
 import { signUp } from "@/api/auth";
-import type { useMutationCallback } from "@/types";
+import type { useMutationCallback } from "@/types/reactQuery";
 import { useMutation } from "@tanstack/react-query";
 
 export function useSignUp(callbacks?: useMutationCallback) {
