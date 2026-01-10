@@ -8,38 +8,35 @@ type CoachImage = {
   previewUrl: string;
 };
 
-type SquadEditorActions = {
-  /** 포메이션 선택: formation 세팅 + 11개 슬롯 초기화 */
-  setFormation: (formation: FormationKey) => void;
+type State = {
+  formation: FormationKey | null;
+  slots: SquadSlot[];
+  selectedSlotIndex: number | null;
 
-  /** 슬롯 클릭: 현재 선택된 슬롯 인덱스 저장 */
-  selectSlot: (slotIndex: number | null) => void;
+  title: string;
+  coachImage: CoachImage | null;
 
-  /** 슬롯에 선수 배정/해제: playerId 업데이트 */
-  assignPlayerToSlot: (slotIndex: number, playerId: number | null) => void;
-
-  /** 스쿼드 제목 변경 */
-  setTitle: (title: string) => void;
-
-  /** 감독 이미지 변경(업로드/미리보기) */
-  setCoachImage: (image: CoachImage | null) => void;
-
-  /** 저장 중 상태 */
-  setIsSaving: (isSaving: boolean) => void;
-
-  /** 에디터 상태 초기화 */
-  reset: () => void;
+  isSaving: boolean;
 };
 
-const initialState = {
-  formation: null as FormationKey | null,
-  slots: [] as SquadSlot[],
-  selectedSlotIndex: null as number | null,
+const initialState: State = {
+  formation: null,
+  slots: [],
+  selectedSlotIndex: null,
+
   title: "",
-  coachImage: null as CoachImage | null,
+  coachImage: null,
+
   isSaving: false,
 };
 
+/**
+ * 스쿼드(전술) 편집 에디터 상태를 전역으로 관리하는 Store
+ * - formation 선택
+ * - 11개 slot(좌표, 선수) 관리
+ * - title, coachImage 관리
+ * - 저장 상태 관리
+ */
 export const useSquadEditorStore = create(
   devtools(
     combine(initialState, (set, get) => ({
@@ -89,3 +86,54 @@ export const useSquadEditorStore = create(
     { name: "squadEditorStore" },
   ),
 );
+
+/** formation 변경 전용 Hook */
+export const useSetFormation = () => {
+  const setFormation = useSquadEditorStore((s) => s.actions.setFormation);
+  return setFormation;
+};
+
+/** slot 선택 전용 Hook */
+export const useSelectSquadSlot = () => {
+  const selectSlot = useSquadEditorStore((s) => s.actions.selectSlot);
+  return selectSlot;
+};
+
+/** slot에 선수 배정 전용 Hook */
+export const useAssignPlayerToSlot = () => {
+  const assign = useSquadEditorStore((s) => s.actions.assignPlayerToSlot);
+  return assign;
+};
+
+/** 제목 변경 전용 Hook */
+export const useSetSquadTitle = () => {
+  const setTitle = useSquadEditorStore((s) => s.actions.setTitle);
+  return setTitle;
+};
+
+/** 감독 이미지 변경 전용 Hook */
+export const useSetCoachImage = () => {
+  const setCoachImage = useSquadEditorStore((s) => s.actions.setCoachImage);
+  return setCoachImage;
+};
+
+/** 저장 상태 변경 전용 Hook */
+export const useSetSquadSaving = () => {
+  const setIsSaving = useSquadEditorStore((s) => s.actions.setIsSaving);
+  return setIsSaving;
+};
+
+/** 에디터 초기화 전용 Hook */
+export const useResetSquadEditor = () => {
+  const reset = useSquadEditorStore((s) => s.actions.reset);
+  return reset;
+};
+
+/**
+ * Squad Editor 상태 접근 Hook
+ * - state + actions 전체에 접근 가능
+ */
+export const useSquadEditor = () => {
+  const store = useSquadEditorStore();
+  return store as typeof store & State;
+};
