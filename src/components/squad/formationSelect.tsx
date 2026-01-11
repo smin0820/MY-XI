@@ -8,7 +8,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import type { FormationKey } from "@/types/squad";
-import { useSquadEditor, useSetFormation } from "@/store/squadEditor";
+import { useSetFormation, useSquadFormation } from "@/store/squadEditor";
 import { formations } from "@/lib/constants/formations";
 
 const formationOptions = Object.keys(formations) as Array<
@@ -16,7 +16,7 @@ const formationOptions = Object.keys(formations) as Array<
 >;
 
 export default function FormationSelect() {
-  const { formation } = useSquadEditor();
+  const formation = useSquadFormation();
   const setFormation = useSetFormation();
 
   const handleChange = (value: string) => {

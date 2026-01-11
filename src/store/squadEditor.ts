@@ -129,11 +129,32 @@ export const useResetSquadEditor = () => {
   return reset;
 };
 
-/**
- * Squad Editor 상태 접근 Hook
- * - state + actions 전체에 접근 가능
- */
-export const useSquadEditor = () => {
-  const store = useSquadEditorStore();
-  return store as typeof store & State;
+/** 현재 선택된 포메이션 값 subscribe */
+export const useSquadFormation = () => {
+  return useSquadEditorStore((s) => s.formation);
+};
+
+/** 11개 슬롯 목록 subscribe */
+export const useSquadSlots = () => {
+  return useSquadEditorStore((s) => s.slots);
+};
+
+/** 현재 선택된 슬롯 index subscribe */
+export const useSelectedSquadSlotIndex = () => {
+  return useSquadEditorStore((s) => s.selectedSlotIndex);
+};
+
+/** 스쿼드 제목 subscribe */
+export const useSquadTitle = () => {
+  return useSquadEditorStore((s) => s.title);
+};
+
+/** 감독 이미지 subscribe */
+export const useCoachImage = () => {
+  return useSquadEditorStore((s) => s.coachImage);
+};
+
+/** 저장중 여부 subscribe */
+export const useIsSaving = () => {
+  return useSquadEditorStore((s) => s.isSaving);
 };
