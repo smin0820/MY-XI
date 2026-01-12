@@ -1,5 +1,6 @@
 import AlertModal from "@/components/modal/alertMoal";
 import PlayerEditorModal from "@/components/modal/playerEditorModal";
+import PlayerPickerModal from "@/components/modal/playerPickerModal";
 import type { ReactNode } from "react";
 import { createPortal } from "react-dom";
 
@@ -10,7 +11,8 @@ export default function ModalProvider({ children }: { children: ReactNode }) {
       {createPortal(
         <>
           <PlayerEditorModal />,
-          <AlertModal />
+          <AlertModal />,
+          <PlayerPickerModal />
         </>,
         document.getElementById("modal-root")!,
       )}
