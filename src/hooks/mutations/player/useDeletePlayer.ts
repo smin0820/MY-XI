@@ -1,6 +1,6 @@
 import { deleteImageInPath } from "@/api/image";
 import { deletePlayer } from "@/api/player";
-import { QUERY_KEYS } from "@/lib/constants/querykeys";
+import { QUERY_KEYS } from "@/lib/constants/queryKeys";
 import { useSession } from "@/store/session";
 import type { useMutationCallback } from "@/types/reactQuery";
 import { useMutation, useQueryClient } from "@tanstack/react-query";

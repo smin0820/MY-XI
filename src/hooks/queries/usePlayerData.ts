@@ -1,5 +1,5 @@
 import { fetchPlayers } from "@/api/player";
-import { QUERY_KEYS } from "@/lib/constants/querykeys";
+import { QUERY_KEYS } from "@/lib/constants/queryKeys";
 import { useQuery } from "@tanstack/react-query";
 
 export function usePlayerData() {

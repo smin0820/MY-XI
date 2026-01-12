@@ -1,5 +1,5 @@
 import { updatePlayer } from "@/api/player";
-import { QUERY_KEYS } from "@/lib/constants/querykeys";
+import { QUERY_KEYS } from "@/lib/constants/queryKeys";
 import type { PlayerEntity } from "@/types/db";
 import { type useMutationCallback } from "@/types/reactQuery";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
