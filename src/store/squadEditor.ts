@@ -59,9 +59,26 @@ export const useSquadEditorStore = create(
         assignPlayerToSlot: (slotIndex: number, playerId: number | null) => {
           const { slots } = get();
 
-          const nextSlots = slots.map((slot) =>
-            slot.slotIndex === slotIndex ? { ...slot, playerId } : slot,
-          );
+          if (playerId === null) {
+            const nextSlots = slots.map((slot) =>
+              slot.slotIndex === slotIndex ? { ...slot, playerId: null } : slot,
+            );
+            set({ slots: nextSlots });
+            return;
+          }
+
+          const nextSlots = slots.map((slot) => {
+            if (slot.playerId === playerId && slot.slotIndex !== slotIndex) {
+              return { ...slot, playerId: null };
+            }
+
+            if (slot.slotIndex === slotIndex) {
+              return { ...slot, playerId };
+            }
+
+            return slot;
+          });
+
           set({ slots: nextSlots });
         },
         setTitle: (title: string) => {
