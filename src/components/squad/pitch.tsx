@@ -1,10 +1,16 @@
 import { useSquadFormation, useSquadSlots } from "@/store/squadEditor";
 import PitchSlot from "./pitchSlot";
 import SquadHeader from "./squadHeader";
+import { usePlayerData } from "@/hooks/queries/usePlayerData";
 
 export default function Pitch() {
   const formation = useSquadFormation();
   const slots = useSquadSlots();
+
+  const { data: players } = usePlayerData();
+  console.log(slots);
+
+  const playerMap = new Map(players?.map((p) => [p.id, p]));
 
   return (
     <div className="rounded-lg border text-lg">
@@ -31,9 +37,20 @@ export default function Pitch() {
           )}
 
           {/* slots 렌더링 */}
-          {slots.map((slot) => (
-            <PitchSlot key={slot.slotIndex} slot={slot} />
-          ))}
+          {slots.map((slot) => {
+            const player = slot.playerId
+              ? playerMap.get(slot.playerId)
+              : undefined;
+
+            return (
+              <PitchSlot
+                key={slot.slotIndex}
+                slot={slot}
+                playerName={player?.name}
+                avatarUrl={player?.avatar_url}
+              />
+            );
+          })}
         </div>
       </div>
     </div>
