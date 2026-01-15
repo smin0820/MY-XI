@@ -5,7 +5,7 @@ import PlayerListItem from "./playerListItem";
 import CreatePlayerButton from "./createPlayerButton";
 import { Input } from "@/components/ui/input";
 
-export default function PlayerList() {
+export default function AdminPlayerPage() {
   const { data, error, isPending } = usePlayerData();
 
   if (error) return <Fallback />;

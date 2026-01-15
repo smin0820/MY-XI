@@ -1,9 +1,9 @@
-import PlayerList from "@/components/admin/player/playerList";
+import AdminPlayerPage from "@/components/admin/player/adminPlayerPage";
 
 export default function Admin() {
   return (
     <>
-      <PlayerList />
+      <AdminPlayerPage />
     </>
   );
 }
