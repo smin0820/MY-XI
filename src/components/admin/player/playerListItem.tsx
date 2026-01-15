@@ -1,7 +1,6 @@
-import type { PlayerEntity } from "@/types";
+import type { PlayerEntity } from "@/types/db";
 import EditPlayerButton from "./editPlayerButton";
 import DeletePlayerButton from "./deletePlayerButton";
-import { useSession } from "@/store/session";
 
 export default function PlayerListItem(player: PlayerEntity) {
   return (

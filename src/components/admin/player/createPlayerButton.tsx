@@ -5,8 +5,11 @@ export default function CreatePlayerButton() {
   const openCreateEditorModal = useOpenCreatePlayerModal();
   return (
     <div>
-      <Button className="cursor-pointer" onClick={openCreateEditorModal}>
-        선수 추가
+      <Button
+        className="cursor-pointer text-lg font-bold"
+        onClick={openCreateEditorModal}
+      >
+        + 추가
       </Button>
     </div>
   );
