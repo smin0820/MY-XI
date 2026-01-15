@@ -44,11 +44,17 @@ export const useSquadEditorStore = create(
         setFormation: (formation: FormationKey) => {
           const positions = formations[formation];
 
+          const { slots: prevSlots } = get();
+
+          const prevPlayerIdByIndex = new Map(
+            prevSlots.map((s) => [s.slotIndex, s.playerId ?? null]),
+          );
+
           const slots: SquadSlot[] = positions.map((pos, idx) => ({
             slotIndex: idx,
             pos_x: pos.pos_x,
             pos_y: pos.pos_y,
-            playerId: null,
+            playerId: prevPlayerIdByIndex.get(idx) || null,
           }));
 
           set({ formation, slots, selectedSlotIndex: null });
