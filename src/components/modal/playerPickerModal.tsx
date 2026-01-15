@@ -30,7 +30,7 @@ export default function PlayerPickerModal() {
 
   return (
     <Dialog open={isOpen} onOpenChange={() => selectSlot(null)}>
-      <DialogContent>
+      <DialogContent className="max-h-[70vh] w-full max-w-lg overflow-hidden">
         <DialogTitle className="text-lg font-semibold">선수 선택</DialogTitle>
         <DialogDescription className="text-muted-foreground text-sm">
           해당 슬롯에 배치할 선수를 선택하세요.
