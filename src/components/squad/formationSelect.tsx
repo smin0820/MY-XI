@@ -25,22 +25,25 @@ export default function FormationSelect() {
   };
 
   return (
-    <Select value={formation ?? ""} onValueChange={handleChange}>
-      <SelectTrigger className="w-full">
-        <SelectValue placeholder="포메이션을 선택해 주세요" />
-      </SelectTrigger>
-
-      <SelectContent>
-        <SelectGroup>
-          <SelectLabel>국대에서 자주 쓰는 포메이션</SelectLabel>
-
-          {formationOptions.map((key) => (
-            <SelectItem key={key} value={key}>
-              {key}
-            </SelectItem>
-          ))}
-        </SelectGroup>
-      </SelectContent>
-    </Select>
+    <div className="border-b-2 py-5">
+      <div className="flex items-center justify-between">
+        <span className="font-bold">포메이션</span>
+        <Select value={formation ?? ""} onValueChange={handleChange}>
+          <SelectTrigger className="w-64">
+            <SelectValue placeholder="포메이션을 선택해 주세요" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>국대에서 자주 쓰는 포메이션</SelectLabel>
+              {formationOptions.map((key) => (
+                <SelectItem key={key} value={key}>
+                  {key}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      </div>
+    </div>
   );
 }

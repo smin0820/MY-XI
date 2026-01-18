@@ -5,7 +5,7 @@ import defaultAvatar from "@/assets/default-avatar-bg-white.png";
 export default function GlobalLayout() {
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="h-15 border-b">
+      <header className="h-18 border-b">
         <div className="m-auto flex h-full w-full max-w-5/6 justify-between px-4">
           <Link to={"/"} className="flex items-center">
             <img className="h-10" src={logo} alt="MY XI 서비스 로고" />
@@ -21,7 +21,7 @@ export default function GlobalLayout() {
           </div>
         </div>
       </header>
-      <main className="m-auto w-full max-w-5/6 flex-1 border-x px-4 py-6">
+      <main className="m-auto w-full max-w-2/3 flex-1 border-x px-6 py-6">
         <Outlet />
       </main>
       <footer className="text-muted-foreground border-t py-10 text-center">
