@@ -1,5 +1,7 @@
+import CoachImageControl from "@/components/squad/coachImageControl";
 import FormationSelect from "@/components/squad/formationSelect";
 import Pitch from "@/components/squad/pitch";
+import SquadActions from "@/components/squad/squadActions";
 
 export default function Index() {
   return (
@@ -8,6 +10,8 @@ export default function Index() {
 
       <div className="space-y-4">
         <FormationSelect />
+        <CoachImageControl />
+        <SquadActions />
         {/* 다음 단계에서 저장 버튼/감독 사진/제목 UI 여기에 추가 */}
       </div>
     </div>
