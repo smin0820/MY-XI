@@ -1,6 +1,6 @@
 import supabase from "@/lib/supabase";
 import { uploadImage } from "./image";
-import type { PlayerEntity } from "@/types";
+import type { PlayerEntity } from "@/types/db";
 
 export async function fetchPlayers() {
   const { data, error } = await supabase
@@ -10,6 +10,18 @@ export async function fetchPlayers() {
 
   if (error) throw error;
   return data;
+}
+
+export async function fetchPlayersByIds(ids: number[]) {
+  if (ids.length === 0) return [];
+
+  const { data, error } = await supabase
+    .from("player")
+    .select("*")
+    .in("id", ids);
+
+  if (error) throw error;
+  return data ?? [];
 }
 
 export async function createPlayer({
