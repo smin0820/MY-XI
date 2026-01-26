@@ -47,6 +47,11 @@ export default function PlayerPickerModal() {
 
   const { ref, inView } = useInView();
 
+  const closeModal = () => {
+    setKeyword("");
+    selectSlot(null);
+  };
+
   useEffect(() => {
     if (!isSearchMode) return;
     if (!inView) return;
@@ -59,7 +64,8 @@ export default function PlayerPickerModal() {
 
     assignPlayerToSlot(selectedSlotIndex, playerId);
     pushRecentPlayer(playerId);
-    selectSlot(null);
+
+    closeModal();
   };
 
   const recentPlayers = useMemo(() => {
@@ -80,7 +86,12 @@ export default function PlayerPickerModal() {
   const error = searchError || recentError;
 
   return (
-    <Dialog open={isOpen} onOpenChange={() => selectSlot(null)}>
+    <Dialog
+      open={isOpen}
+      onOpenChange={(open) => {
+        if (!open) closeModal();
+      }}
+    >
       <DialogContent className="max-h-[70vh] w-full max-w-lg overflow-hidden">
         <DialogTitle className="text-lg font-semibold">선수 선택</DialogTitle>
         <DialogDescription aria-describedby={undefined}></DialogDescription>
