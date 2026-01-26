@@ -24,6 +24,26 @@ export async function fetchPlayersByIds(ids: number[]) {
   return data ?? [];
 }
 
+export async function fetchPlayersByKeyword({
+  keyword,
+  from,
+  to,
+}: {
+  keyword: string;
+  from: number;
+  to: number;
+}) {
+  const { data, error } = await supabase
+    .from("player")
+    .select("*")
+    .ilike("name", `%${keyword.trim()}%`)
+    .order("created_at", { ascending: false })
+    .range(from, to);
+
+  if (error) throw error;
+  return data;
+}
+
 export async function createPlayer({
   name,
   nameEn,

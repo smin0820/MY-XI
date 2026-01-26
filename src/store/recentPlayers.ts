@@ -35,6 +35,7 @@ export const useRecentPlayersStore = create<RecentPlayersState>()(
     }),
     {
       name: "recentPlayers", // localStorage key
+      partialize: (state) => ({ recentPlayerIds: state.recentPlayerIds }),
     },
   ),
 );
