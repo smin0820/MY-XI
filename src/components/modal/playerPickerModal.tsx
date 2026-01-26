@@ -92,7 +92,7 @@ export default function PlayerPickerModal() {
         if (!open) closeModal();
       }}
     >
-      <DialogContent className="max-h-[70vh] w-full max-w-lg overflow-hidden">
+      <DialogContent className="flex max-h-[70vh] w-full max-w-lg flex-col">
         <DialogTitle className="text-lg font-semibold">선수 선택</DialogTitle>
         <DialogDescription aria-describedby={undefined}></DialogDescription>
 
@@ -111,7 +111,7 @@ export default function PlayerPickerModal() {
           />
         </div>
 
-        <div className="mt-2 max-h-[45vh] overflow-y-auto">
+        <div className="flex-1 overflow-y-auto">
           {isSearchMode ? (
             <>
               <div className="text-muted-foreground px-3 py-2 text-xs">
@@ -120,8 +120,8 @@ export default function PlayerPickerModal() {
 
               {searchedPlayers.length === 0 ? (
                 <div className="text-muted-foreground px-3 py-10 text-center text-sm">
-                  <span className="font-medium">{q}</span> 검색어의 검색 결과
-                  없음
+                  <span className="text-foreground font-medium">{q}</span>{" "}
+                  검색어의 검색 결과가 없습니다
                 </div>
               ) : (
                 <ul className="divide-y">
