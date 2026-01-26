@@ -111,24 +111,67 @@ export default function PlayerPickerModal() {
           />
         </div>
 
-        {/* 스크롤 영역 고정 */}
-        {!isPending && !error && (
-          <>
-            {/* ✅ 검색 모드 */}
-            {isSearchMode ? (
-              <>
-                <div className="text-muted-foreground px-3 py-2 text-xs">
-                  검색 결과
-                </div>
+        <div className="mt-2 max-h-[45vh] overflow-y-auto">
+          {isSearchMode ? (
+            <>
+              <div className="text-muted-foreground px-3 py-2 text-xs">
+                검색 결과
+              </div>
 
-                {searchedPlayers.length === 0 ? (
-                  <div className="text-muted-foreground px-3 py-10 text-center text-sm">
-                    <span className="font-medium">{q}</span> 검색어의 검색 결과
-                    없음
+              {searchedPlayers.length === 0 ? (
+                <div className="text-muted-foreground px-3 py-10 text-center text-sm">
+                  <span className="font-medium">{q}</span> 검색어의 검색 결과
+                  없음
+                </div>
+              ) : (
+                <ul className="divide-y">
+                  {searchedPlayers.map((player) => (
+                    <li key={player.id}>
+                      <button
+                        type="button"
+                        onClick={() => handlePickPlayer(player.id)}
+                        className="hover:bg-muted flex w-full cursor-pointer items-center gap-3 px-3 py-3 text-left"
+                      >
+                        <img
+                          src={player.avatar_url ?? defaultAvatar}
+                          alt={player.name}
+                          className="h-10 w-10 rounded-full border object-cover object-top"
+                        />
+                        <div className="min-w-0">
+                          <div className="truncate text-sm font-semibold">
+                            {player.name}
+                          </div>
+                          <div className="text-muted-foreground truncate text-xs">
+                            {player.team_name}
+                          </div>
+                        </div>
+                      </button>
+                    </li>
+                  ))}
+
+                  <li ref={ref} className="h-1" />
+
+                  {isFetchingNextPage && (
+                    <li className="p-4">
+                      <Loader />
+                    </li>
+                  )}
+                </ul>
+              )}
+            </>
+          ) : (
+            <>
+              {recentPlayers.length === 0 ? (
+                <div className="text-muted-foreground px-3 py-10 text-center text-sm">
+                  추가할 선수 검색
+                </div>
+              ) : (
+                <>
+                  <div className="text-muted-foreground px-3 py-2 text-xs">
+                    최근
                   </div>
-                ) : (
                   <ul className="divide-y">
-                    {searchedPlayers.map((player) => (
+                    {recentPlayers.map((player) => (
                       <li key={player.id}>
                         <button
                           type="button"
@@ -151,62 +194,12 @@ export default function PlayerPickerModal() {
                         </button>
                       </li>
                     ))}
-
-                    {/* ✅ 무한 스크롤 트리거 */}
-                    <li ref={ref} />
-
-                    {isFetchingNextPage && (
-                      <li className="p-4">
-                        <Loader />
-                      </li>
-                    )}
                   </ul>
-                )}
-              </>
-            ) : (
-              <>
-                {/* ✅ 최근 없음 */}
-                {recentPlayers.length === 0 ? (
-                  <div className="text-muted-foreground px-3 py-10 text-center text-sm">
-                    추가할 선수 검색
-                  </div>
-                ) : (
-                  <>
-                    {/* ✅ 최근 있음 */}
-                    <div className="text-muted-foreground px-3 py-2 text-xs">
-                      최근
-                    </div>
-                    <ul className="divide-y">
-                      {recentPlayers.map((player) => (
-                        <li key={player.id}>
-                          <button
-                            type="button"
-                            onClick={() => handlePickPlayer(player.id)}
-                            className="hover:bg-muted flex w-full cursor-pointer items-center gap-3 px-3 py-3 text-left"
-                          >
-                            <img
-                              src={player.avatar_url ?? defaultAvatar}
-                              alt={player.name}
-                              className="h-10 w-10 rounded-full border object-cover object-top"
-                            />
-                            <div className="min-w-0">
-                              <div className="truncate text-sm font-semibold">
-                                {player.name}
-                              </div>
-                              <div className="text-muted-foreground truncate text-xs">
-                                {player.team_name}
-                              </div>
-                            </div>
-                          </button>
-                        </li>
-                      ))}
-                    </ul>
-                  </>
-                )}
-              </>
-            )}
-          </>
-        )}
+                </>
+              )}
+            </>
+          )}
+        </div>
       </DialogContent>
     </Dialog>
   );
