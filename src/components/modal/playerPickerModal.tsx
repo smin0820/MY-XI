@@ -104,7 +104,7 @@ export default function PlayerPickerModal() {
         if (!open) closeModal();
       }}
     >
-      <DialogContent className="flex max-h-[70vh] w-full max-w-lg flex-col">
+      <DialogContent className="flex h-[70vh] w-full max-w-lg flex-col overflow-hidden">
         <DialogTitle className="text-lg font-semibold">선수 선택</DialogTitle>
         <DialogDescription className="sr-only">
           선수 선택 모달입니다. 검색하거나 최근 선수를 선택할 수 있습니다.
