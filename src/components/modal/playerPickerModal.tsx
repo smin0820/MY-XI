@@ -73,8 +73,9 @@ export default function PlayerPickerModal() {
     if (!isSearchMode) return;
     if (!inView) return;
     if (!hasNextPage) return;
+    if (isFetchingNextPage) return;
     fetchNextPage();
-  }, [isSearchMode, inView, hasNextPage, fetchNextPage]);
+  }, [isSearchMode, inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   const handlePickPlayer = (playerId: number) => {
     if (selectedSlotIndex === null) return;
@@ -105,9 +106,10 @@ export default function PlayerPickerModal() {
     >
       <DialogContent className="flex max-h-[70vh] w-full max-w-lg flex-col">
         <DialogTitle className="text-lg font-semibold">선수 선택</DialogTitle>
-        <DialogDescription aria-describedby={undefined}></DialogDescription>
+        <DialogDescription className="sr-only">
+          선수 선택 모달입니다. 검색하거나 최근 선수를 선택할 수 있습니다.
+        </DialogDescription>
 
-        {/* 검색 입력*/}
         <div className="relative">
           <Search
             className="text-muted-foreground absolute top-1/2 left-4 h-5 w-5 -translate-y-1/2"
