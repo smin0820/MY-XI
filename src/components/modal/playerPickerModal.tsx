@@ -10,11 +10,12 @@ import { usePushRecentPlayer, useRecentPlayerIds } from "@/store/recentPlayers";
 import { useEffect, useMemo, useState } from "react";
 import { useRecentPlayers } from "@/hooks/queries/useRecentPlayers";
 import { Input } from "../ui/input";
-import { Search } from "lucide-react";
+import { LoaderCircleIcon, Search } from "lucide-react";
 import { useInfinitePlayersByKeyword } from "@/hooks/queries/useInfinitePlayersByKeyword";
 import { useInView } from "react-intersection-observer";
 import type { PlayerEntity } from "@/types/db";
 import Loader from "../loader";
+import { useDebouncedValue } from "@/hooks/common/useDebouncedValue";
 
 export default function PlayerPickerModal() {
   const selectedSlotIndex = useSelectedSquadSlotIndex();
@@ -28,6 +29,7 @@ export default function PlayerPickerModal() {
 
   const [keyword, setKeyword] = useState("");
   const q = keyword.trim();
+  const debouncedQ = useDebouncedValue(q, 250);
   const isSearchMode = q.length > 0;
 
   const {
@@ -40,10 +42,25 @@ export default function PlayerPickerModal() {
     data: searchData,
     error: searchError,
     isPending: isSearchPending,
+    isFetching: isSearchFetching,
     fetchNextPage,
     isFetchingNextPage,
     hasNextPage,
-  } = useInfinitePlayersByKeyword(q);
+  } = useInfinitePlayersByKeyword(debouncedQ);
+
+  const isDebouncing = isSearchMode && q !== debouncedQ;
+
+  // 검색 결과 평탄화
+  const searchedPlayers: PlayerEntity[] = useMemo(() => {
+    if (!searchData) return [];
+    return searchData.pages.flat();
+  }, [searchData]);
+
+  const showSearchLoading =
+    isSearchMode &&
+    (isDebouncing ||
+      (isSearchPending && searchedPlayers.length === 0) ||
+      (isSearchFetching && searchedPlayers.length === 0));
 
   const { ref, inView } = useInView();
 
@@ -75,12 +92,6 @@ export default function PlayerPickerModal() {
       .map((id) => map.get(id))
       .filter((p): p is NonNullable<typeof p> => p !== undefined);
   }, [recentData, recentIds]);
-
-  // 검색 결과 평탄화
-  const searchedPlayers: PlayerEntity[] = useMemo(() => {
-    if (!searchData) return [];
-    return searchData.pages.flat();
-  }, [searchData]);
 
   const isPending = isSearchPending || isRecentPending;
   const error = searchError || recentError;
@@ -118,7 +129,14 @@ export default function PlayerPickerModal() {
                 검색 결과
               </div>
 
-              {searchedPlayers.length === 0 ? (
+              {showSearchLoading ? (
+                <div className="flex flex-col items-center gap-2 px-3 py-10 text-center">
+                  <LoaderCircleIcon className="animate-spin" />
+                  <div className="text-muted-foreground text-sm">
+                    선수를 검색하고 있습니다...
+                  </div>
+                </div>
+              ) : searchedPlayers.length === 0 ? (
                 <div className="text-muted-foreground px-3 py-10 text-center text-sm">
                   <span className="text-foreground font-medium">{q}</span>{" "}
                   검색어의 검색 결과가 없습니다

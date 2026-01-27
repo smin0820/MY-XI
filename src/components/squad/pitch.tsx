@@ -8,7 +8,6 @@ export default function Pitch() {
   const slots = useSquadSlots();
 
   const { data: players } = usePlayerData();
-  console.log(slots);
 
   const playerMap = new Map(players?.map((p) => [p.id, p]));
 
