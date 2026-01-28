@@ -4,27 +4,99 @@ import { usePlayerData } from "@/hooks/queries/usePlayerData";
 import PlayerListItem from "./playerListItem";
 import CreatePlayerButton from "./createPlayerButton";
 import { Input } from "@/components/ui/input";
+import { usePlayerSearch } from "@/hooks/common/usePlayerSearch";
+import { useInfinitePlayersByKeyword } from "@/hooks/queries/useInfinitePlayersByKeyword";
+import { useInView } from "react-intersection-observer";
+import { useEffect } from "react";
 
 export default function AdminPlayerPage() {
-  const { data, error, isPending } = usePlayerData();
+  const { keyword, setKeyword, debouncedQ, isSearchMode, isDebouncing } =
+    usePlayerSearch();
+
+  const {
+    data,
+    error,
+    isPending,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfinitePlayersByKeyword(debouncedQ);
+
+  const { ref, inView } = useInView();
+
+  useEffect(() => {
+    if (!inView) return;
+    if (!hasNextPage) return;
+    if (isFetchingNextPage) return;
+    fetchNextPage();
+  }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
+
+  const players = data?.pages.flatMap((page) => page.flat()) ?? [];
+  // const players = useMemo(() => {
+  //   if (!data) return [];
+  //   return data.pages.flat();
+  // }, [data]);
 
   if (error) return <Fallback />;
-  if (isPending) return <Loader />;
 
   return (
     <div className="rounded-lg p-6">
       <div className="mb-4 flex items-center justify-between">
-        <div className="text-lg font-bold">선수 명단({data.length}명)</div>
+        <div className="text-lg font-bold">
+          선수 명단 ({players.length}명{hasNextPage ? "+" : ""})
+        </div>
+
         <div className="flex items-center gap-2">
-          <Input placeholder="검색" />
+          <div className="relative">
+            <Input
+              value={keyword}
+              onChange={(e) => setKeyword(e.target.value)}
+              placeholder="선수 이름 검색"
+              aria-label="선수 검색"
+            />
+          </div>
+
           <CreatePlayerButton />
         </div>
       </div>
 
-      <div className="divide-input/5 divide-y overflow-visible rounded-md bg-white shadow-sm">
-        {data.map((player) => (
-          <PlayerListItem key={player.id} {...player} />
-        ))}
+      <div className="h-[70vh] overflow-y-auto rounded-md bg-white shadow-sm">
+        {isPending && (
+          <div className="p-6">
+            <Loader />
+          </div>
+        )}
+
+        {!isPending && (
+          <>
+            {isSearchMode && isDebouncing && (
+              <div className="text-muted-foreground px-4 py-3 text-sm">
+                검색 중...
+              </div>
+            )}
+
+            <div className="divide-input/5 divide-y">
+              {players.map((player) => (
+                <PlayerListItem key={player.id} {...player} />
+              ))}
+            </div>
+
+            {/* sentinel */}
+            <div ref={ref} className="h-2" />
+
+            {isFetchingNextPage && (
+              <div className="p-4">
+                <Loader />
+              </div>
+            )}
+
+            {!hasNextPage && players.length === 0 && (
+              <div className="text-muted-foreground p-10 text-center text-sm">
+                검색 결과가 없습니다.
+              </div>
+            )}
+          </>
+        )}
       </div>
     </div>
   );
