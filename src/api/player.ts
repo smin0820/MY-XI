@@ -21,7 +21,7 @@ export async function fetchPlayersByIds(ids: number[]) {
     .in("id", ids);
 
   if (error) throw error;
-  return data ?? [];
+  return data;
 }
 
 export async function fetchPlayersByKeyword({
@@ -42,6 +42,19 @@ export async function fetchPlayersByKeyword({
 
   if (error) throw error;
   return data;
+}
+
+export async function fetchPlayersCountByKeyword(keyword: string) {
+  const q = keyword.trim();
+
+  const query = supabase
+    .from("player")
+    .select("id", { count: "exact", head: true });
+
+  const { count, error } = q ? await query.like("name", `%${q}%`) : await query;
+
+  if (error) throw error;
+  return count;
 }
 
 export async function createPlayer({

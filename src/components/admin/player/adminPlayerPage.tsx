@@ -1,6 +1,5 @@
 import Fallback from "@/components/fallback";
 import Loader from "@/components/loader";
-import { usePlayerData } from "@/hooks/queries/usePlayerData";
 import PlayerListItem from "./playerListItem";
 import CreatePlayerButton from "./createPlayerButton";
 import { Input } from "@/components/ui/input";
@@ -8,10 +7,14 @@ import { usePlayerSearch } from "@/hooks/common/usePlayerSearch";
 import { useInfinitePlayersByKeyword } from "@/hooks/queries/useInfinitePlayersByKeyword";
 import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
+import { usePlayerCountByKeyword } from "@/hooks/queries/usePlayerCountByKeyword";
 
 export default function AdminPlayerPage() {
   const { keyword, setKeyword, debouncedQ, isSearchMode, isDebouncing } =
     usePlayerSearch();
+
+  const { data: totalCount, isPending: isCountPending } =
+    usePlayerCountByKeyword(debouncedQ);
 
   const {
     data,
@@ -31,7 +34,7 @@ export default function AdminPlayerPage() {
     fetchNextPage();
   }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
-  const players = data?.pages.flatMap((page) => page.flat()) ?? [];
+  const players = data?.pages.flat() ?? [];
   // const players = useMemo(() => {
   //   if (!data) return [];
   //   return data.pages.flat();
@@ -43,7 +46,7 @@ export default function AdminPlayerPage() {
     <div className="rounded-lg p-6">
       <div className="mb-4 flex items-center justify-between">
         <div className="text-lg font-bold">
-          선수 명단 ({players.length}명{hasNextPage ? "+" : ""})
+          선수 명단({isCountPending ? "..." : totalCount})명
         </div>
 
         <div className="flex items-center gap-2">

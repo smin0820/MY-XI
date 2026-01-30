@@ -11,5 +11,6 @@ export const QUERY_KEYS = {
     byId: (playerId: number) => ["player", "byId", playerId],
     recent: (ids: number[]) => ["player", "recent", ...ids],
     search: (keyword: string) => ["player", "search", keyword],
+    count: (q: string) => ["player", "count", q],
   },
 };
