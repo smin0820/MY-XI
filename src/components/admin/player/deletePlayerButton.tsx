@@ -9,6 +9,11 @@ export default function DeletePlayerButton({ id }: { id: number }) {
 
   const { mutate: deletePlayer, isPending: isDeletePlayerPending } =
     useDeletePlayer({
+      onSuccess: () => {
+        toast.success("선수 삭제되었습니다.", {
+          position: "top-center",
+        });
+      },
       onError: (error) => {
         toast.error("선수 삭제 실패했습니다.", {
           position: "top-center",
