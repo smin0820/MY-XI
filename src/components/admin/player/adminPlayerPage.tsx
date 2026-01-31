@@ -8,6 +8,7 @@ import { useInfinitePlayersByKeyword } from "@/hooks/queries/useInfinitePlayersB
 import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
 import { usePlayerCountByKeyword } from "@/hooks/queries/usePlayerCountByKeyword";
+import { CircleAlert } from "lucide-react";
 
 export default function AdminPlayerPage() {
   const { keyword, setKeyword, debouncedQ, isSearchMode, isDebouncing } =
@@ -94,8 +95,12 @@ export default function AdminPlayerPage() {
             )}
 
             {!hasNextPage && players.length === 0 && (
-              <div className="text-muted-foreground p-10 text-center text-sm">
-                검색 결과가 없습니다.
+              // <div className="text-muted-foreground p-10 text-center text-sm">
+              //   검색 결과가 없습니다.
+              // </div>
+              <div className="text-muted-foreground flex flex-col items-center gap-4 p-10 text-center text-sm">
+                <CircleAlert />
+                <span>조건에 맞는 선수가 없어요.</span>
               </div>
             )}
           </>

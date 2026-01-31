@@ -18,7 +18,21 @@ export function useDeletePlayer(callbacks?: useMutationCallback) {
         await deleteImageInPath(`${session?.user.id}/${deletedPlayer.id}`);
       }
 
-      queryClient.resetQueries({
+      await queryClient.invalidateQueries({
+        predicate: (q) =>
+          Array.isArray(q.queryKey) &&
+          q.queryKey[0] === "player" &&
+          q.queryKey[1] === "count",
+      });
+
+      await queryClient.invalidateQueries({
+        predicate: (q) =>
+          Array.isArray(q.queryKey) &&
+          q.queryKey[0] === "player" &&
+          q.queryKey[1] === "search",
+      });
+
+      queryClient.invalidateQueries({
         queryKey: QUERY_KEYS.player.list,
       });
     },

@@ -9,7 +9,7 @@ export function useUpdatePlayer(callbacks?: useMutationCallback) {
 
   return useMutation({
     mutationFn: updatePlayer,
-    onSuccess: (updatedPlayer) => {
+    onSuccess: async (updatedPlayer) => {
       if (callbacks?.onSuccess) callbacks.onSuccess();
 
       queryClient.setQueryData<PlayerEntity>(
@@ -17,7 +17,23 @@ export function useUpdatePlayer(callbacks?: useMutationCallback) {
         (prev) => (prev ? { ...prev, ...updatedPlayer } : updatedPlayer),
       );
 
-      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.player.list });
+      await queryClient.invalidateQueries({
+        predicate: (q) =>
+          Array.isArray(q.queryKey) &&
+          q.queryKey[0] === "player" &&
+          q.queryKey[1] === "count",
+      });
+
+      await queryClient.invalidateQueries({
+        predicate: (q) =>
+          Array.isArray(q.queryKey) &&
+          q.queryKey[0] === "player" &&
+          q.queryKey[1] === "search",
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.player.list,
+      });
     },
     onError: (error) => {
       if (callbacks?.onError) callbacks.onError(error);

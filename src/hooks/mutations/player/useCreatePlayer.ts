@@ -1,4 +1,4 @@
-import { createPlayer, createPlayerWithAvatar } from "@/api/player";
+import { createPlayerWithAvatar } from "@/api/player";
 import { QUERY_KEYS } from "@/lib/constants/queryKeys";
 import type { useMutationCallback } from "@/types/reactQuery";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -7,10 +7,24 @@ export function useCreatePlayer(callbacks?: useMutationCallback) {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: createPlayerWithAvatar,
-    onSuccess: () => {
+    onSuccess: async () => {
       if (callbacks?.onSuccess) callbacks.onSuccess();
 
-      queryClient.resetQueries({
+      await queryClient.invalidateQueries({
+        predicate: (q) =>
+          Array.isArray(q.queryKey) &&
+          q.queryKey[0] === "player" &&
+          q.queryKey[1] === "count",
+      });
+
+      await queryClient.invalidateQueries({
+        predicate: (q) =>
+          Array.isArray(q.queryKey) &&
+          q.queryKey[0] === "player" &&
+          q.queryKey[1] === "search",
+      });
+
+      queryClient.invalidateQueries({
         queryKey: QUERY_KEYS.player.list,
       });
     },

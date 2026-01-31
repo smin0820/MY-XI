@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useOpenEditPlayerModal } from "@/store/playerEditorModal";
-import type { PlayerEntity } from "@/types";
+import type { PlayerEntity } from "@/types/db";
 import { Pencil } from "lucide-react";
 
 export default function EditPlayerButton(props: PlayerEntity) {
