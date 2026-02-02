@@ -1,19 +1,9 @@
-import CoachImageControl from "@/components/squad/coachImageControl";
-import FormationSelect from "@/components/squad/formationSelect";
-import Pitch from "@/components/squad/pitch";
-import SquadActions from "@/components/squad/squadActions";
+import SquadEditorPage from "@/components/squad/editor/squadEditorPage";
 
 export default function Index() {
   return (
-    <div className="grid grid-cols-[auto_1fr] gap-10">
-      <Pitch />
-
-      <div className="space-y-4">
-        <FormationSelect />
-        <CoachImageControl />
-        <SquadActions />
-        {/* 다음 단계에서 저장 버튼/감독 사진/제목 UI 여기에 추가 */}
-      </div>
-    </div>
+    <>
+      <SquadEditorPage />
+    </>
   );
 }

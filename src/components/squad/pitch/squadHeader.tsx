@@ -1,11 +1,11 @@
 import defaultAvatar from "@/assets/default-avatar-bg-white.png";
+import { Input } from "@/components/ui/input";
 import {
   useCoachImage,
   useSetSquadTitle,
   useSquadTitle,
 } from "@/store/squadEditor";
 import { useEffect, useRef, useState } from "react";
-import { Input } from "../ui/input";
 
 export default function SquadHeader() {
   const title = useSquadTitle();

@@ -9,7 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import FormationSelect from "@/components/squad/formationSelect";
+import FormationSelect from "@/components/squad/editor/formationSelect";
 
 const formations: Record<string, { left: string; top: string }[]> = {
   "4-3-3": [
