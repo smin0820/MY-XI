@@ -2,6 +2,7 @@ import Pitch from "../pitch/pitch";
 import FormationSelect from "./formationSelect";
 import CoachImageControl from "./coachImageControl";
 import SquadActions from "./squadActions";
+import TacticalMemo from "./tacticalMemo";
 
 export default function SquadEditorPage() {
   return (
@@ -11,6 +12,7 @@ export default function SquadEditorPage() {
       <div className="space-y-4">
         <FormationSelect />
         <CoachImageControl />
+        <TacticalMemo />
         <SquadActions />
       </div>
     </div>

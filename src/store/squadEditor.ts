@@ -15,6 +15,7 @@ type State = {
 
   title: string;
   coachImage: CoachImage | null;
+  memo: string;
 
   isSaving: boolean;
 };
@@ -26,6 +27,7 @@ const initialState: State = {
 
   title: "",
   coachImage: null,
+  memo: "",
 
   isSaving: false,
 };
@@ -93,6 +95,9 @@ export const useSquadEditorStore = create(
         setCoachImage: (image: CoachImage | null) => {
           set({ coachImage: image });
         },
+        setMemo: (memo: string) => {
+          set({ memo });
+        },
         setIsSaving: (isSaving: boolean) => {
           set({ isSaving });
         },
@@ -140,6 +145,12 @@ export const useSetCoachImage = () => {
   return setCoachImage;
 };
 
+/** 전술 메모 변경 전용 Hook */
+export const useSetSquadMemo = () => {
+  const setMemo = useSquadEditorStore((s) => s.actions.setMemo);
+  return setMemo;
+};
+
 /** 저장 상태 변경 전용 Hook */
 export const useSetSquadSaving = () => {
   const setIsSaving = useSquadEditorStore((s) => s.actions.setIsSaving);
@@ -175,6 +186,11 @@ export const useSquadTitle = () => {
 /** 감독 이미지 subscribe */
 export const useCoachImage = () => {
   return useSquadEditorStore((s) => s.coachImage);
+};
+
+/** 전술 메모 subscribe */
+export const useSquadMemo = () => {
+  return useSquadEditorStore((s) => s.memo);
 };
 
 /** 저장중 여부 subscribe */
