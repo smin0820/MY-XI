@@ -42,57 +42,67 @@ export default function SquadEditorProgress() {
   ];
 
   return (
-    <div className="rounded-lg border bg-white px-5 py-4">
-      <div className="flex items-start justify-between gap-4">
-        <div className="min-w-0">
-          <div className="text-sm font-semibold">진행도</div>
-          <div className="text-muted-foreground mt-1 text-xs">
-            저장하려면 아래 항목을 모두 완료하세요.
-          </div>
+    <div className="rounded-lg border bg-white p-5">
+      <div className="flex items-start gap-3">
+        <div className="mt-0.5 rounded-md bg-black/5 p-2">
+          <CheckCircle2 className="h-5 w-5" aria-hidden="true" />
         </div>
 
-        <div
-          className={[
-            "shrink-0 rounded-full px-3 py-1 text-xs font-semibold",
-            canSave
-              ? "bg-emerald-50 text-emerald-700"
-              : "text-muted-foreground bg-black/5",
-          ].join(" ")}
-        >
-          {canSave ? "저장 가능" : "저장 준비 중"}
-        </div>
-      </div>
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center justify-between gap-4">
+            <div className="min-w-0">
+              <div className="text-base font-semibold">스쿼드 진행 상태</div>
+              <div className="text-muted-foreground mt-1 text-sm leading-relaxed">
+                저장하려면 아래 항목을 모두 완료해 주세요.
+              </div>
+            </div>
 
-      <div className="mt-3 space-y-2">
-        {items.map((item) => (
-          <div key={item.label} className="flex items-center gap-2 text-sm">
-            {item.done ? (
-              <CheckCircle2
-                className="h-4 w-4 text-emerald-600"
-                aria-hidden="true"
-              />
-            ) : (
-              <Circle
-                className="text-muted-foreground h-4 w-4"
-                aria-hidden="true"
-              />
-            )}
-            <span
-              className={
-                item.done ? "text-foreground" : "text-muted-foreground"
-              }
+            <div
+              className={[
+                "shrink-0 rounded-full px-3 py-1 text-xs font-semibold",
+                canSave
+                  ? "bg-emerald-50 text-emerald-700"
+                  : "text-muted-foreground bg-black/5",
+              ].join(" ")}
             >
-              {item.label}
-            </span>
+              {canSave ? "저장 가능" : "저장 준비 중"}
+            </div>
           </div>
-        ))}
-      </div>
 
-      {!isMemoValid && (
-        <div className="mt-3 rounded-md bg-red-50 px-3 py-2 text-xs text-red-700">
-          전술 메모는 최대 1,000자까지 입력할 수 있습니다.
+          <div className="mt-4 space-y-2">
+            {items.map((item) => (
+              <div key={item.label} className="flex items-center gap-2 text-sm">
+                {item.done ? (
+                  <CheckCircle2
+                    className="h-4 w-4 text-emerald-600"
+                    aria-hidden="true"
+                  />
+                ) : (
+                  <Circle
+                    className="text-muted-foreground h-4 w-4"
+                    aria-hidden="true"
+                  />
+                )}
+
+                <span
+                  className={[
+                    "leading-relaxed",
+                    item.done ? "text-foreground" : "text-muted-foreground",
+                  ].join(" ")}
+                >
+                  {item.label}
+                </span>
+              </div>
+            ))}
+          </div>
+
+          {!isMemoValid && (
+            <div className="mt-4 rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">
+              전술 메모는 최대 1,000자까지 입력할 수 있습니다.
+            </div>
+          )}
         </div>
-      )}
+      </div>
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import { Textarea } from "@/components/ui/textarea";
-import { useAlertModal, useOpenAlertModal } from "@/store/alertModal";
+import { useOpenAlertModal } from "@/store/alertModal";
 import { useSetSquadMemo, useSquadMemo } from "@/store/squadEditor";
+import { NotebookPen } from "lucide-react";
 import { useRef, useState } from "react";
 
 const MAX_LENGTH = 1000;
@@ -42,29 +43,40 @@ export default function TacticalMemo() {
   const length = memo.length;
 
   return (
-    <div className="border-b-2 py-5">
-      <div className="flex items-start justify-between gap-4">
-        <span className="mt-2 font-bold">전술 메모</span>
+    <div className="rounded-lg border bg-white p-5">
+      <div className="flex items-start gap-3">
+        <div className="mt-0.5 rounded-md bg-black/5 p-2">
+          <NotebookPen className="h-5 w-5" aria-hidden="true" />
+        </div>
 
-        <div className="relative w-10/12">
-          <Textarea
-            value={memo}
-            onChange={(e) => handleChange(e.target.value)}
-            placeholder="전술을 입력해 주세요"
-            maxLength={MAX_LENGTH}
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
-            className={[
-              "pr-12 transition-all duration-200",
-              isFocused ? "min-h-30" : "min-h-10",
-            ].join(" ")}
-          />
+        <div className="min-w-0 flex-1">
+          <div className="text-base font-semibold">전술 메모</div>
+          <div className="text-muted-foreground mt-1 text-sm leading-relaxed">
+            전술 의도, 역할, 압박 방식 등을 간단히 기록해주세요.
+          </div>
 
-          {isFocused && (
-            <div className="text-muted-foreground pointer-events-none absolute right-4 bottom-2 text-sm">
-              {length} / {MAX_LENGTH}
+          <div className="mt-4">
+            <div className="relative">
+              <Textarea
+                value={memo}
+                onChange={(e) => handleChange(e.target.value)}
+                placeholder="전술을 입력해 주세요"
+                maxLength={MAX_LENGTH}
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setIsFocused(false)}
+                className={[
+                  "pr-14 transition-all duration-200",
+                  isFocused ? "min-h-30" : "min-h-10",
+                ].join(" ")}
+              />
+
+              {isFocused && (
+                <div className="text-muted-foreground pointer-events-none absolute right-4 bottom-2 text-sm">
+                  {length} / {MAX_LENGTH}
+                </div>
+              )}
             </div>
-          )}
+          </div>
         </div>
       </div>
     </div>

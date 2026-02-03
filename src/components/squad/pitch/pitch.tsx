@@ -1,7 +1,7 @@
 import { useSquadFormation, useSquadSlots } from "@/store/squadEditor";
-import PitchSlot from "./pitchSlot";
-import SquadHeader from "./squadHeader";
 import { usePlayerData } from "@/hooks/queries/usePlayerData";
+import SquadHeader from "./squadHeader";
+import PitchSlot from "./pitchSlot";
 
 export default function Pitch() {
   const formation = useSquadFormation();
@@ -12,7 +12,7 @@ export default function Pitch() {
   const playerMap = new Map(players?.map((p) => [p.id, p]));
 
   return (
-    <div className="rounded-lg border text-lg">
+    <div className="rounded-lg text-lg">
       <SquadHeader />
 
       {/* 경기장 */}

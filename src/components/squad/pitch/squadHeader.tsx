@@ -26,8 +26,7 @@ export default function SquadHeader() {
   const finishEditing = () => setIsEditing(false);
 
   return (
-    <div className="flex items-center gap-4 border-b px-2 py-3">
-      {/* ✅ 표시만 */}
+    <div className="flex items-center gap-4 rounded-t-lg border px-2 py-3">
       <img
         className="h-12 w-12 rounded-full object-cover object-top"
         src={coachImage?.previewUrl || defaultAvatar}
