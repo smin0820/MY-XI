@@ -31,12 +31,14 @@ export default function AlertModal() {
           <AlertDialogDescription>{store.description}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel
-            className="cursor-pointer"
-            onClick={handleCancelClick}
-          >
-            취소
-          </AlertDialogCancel>
+          {store.onNegative && (
+            <AlertDialogCancel
+              className="cursor-pointer"
+              onClick={handleCancelClick}
+            >
+              취소
+            </AlertDialogCancel>
+          )}
           <AlertDialogAction
             className="cursor-pointer"
             onClick={handleActionClick}

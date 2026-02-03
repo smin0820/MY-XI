@@ -28,6 +28,7 @@ export default function DeletePlayerButton({ id }: { id: number }) {
       onPositive: () => {
         deletePlayer(id);
       },
+      onNegative: () => {},
     });
   };
   return (

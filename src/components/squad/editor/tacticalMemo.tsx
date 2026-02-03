@@ -1,14 +1,44 @@
 import { Textarea } from "@/components/ui/textarea";
+import { useAlertModal, useOpenAlertModal } from "@/store/alertModal";
 import { useSetSquadMemo, useSquadMemo } from "@/store/squadEditor";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 const MAX_LENGTH = 1000;
 
 export default function TacticalMemo() {
   const memo = useSquadMemo();
   const setMemo = useSetSquadMemo();
+  const openAlertModal = useOpenAlertModal();
 
   const [isFocused, setIsFocused] = useState(false);
+
+  const overLimitRef = useRef<string | null>(null);
+  const isModalOpenRef = useRef(false);
+
+  const handleChange = (value: string) => {
+    if (value.length <= MAX_LENGTH) {
+      setMemo(value);
+      return;
+    }
+
+    if (isModalOpenRef.current) return;
+
+    overLimitRef.current = value;
+    isModalOpenRef.current = true;
+
+    openAlertModal({
+      title: "",
+      description: "텍스트는 최대 1,000자까지 입력할 수 있습니다.",
+      onPositive: () => {
+        const draft = overLimitRef.current ?? value;
+        setMemo(draft.slice(0, MAX_LENGTH));
+
+        overLimitRef.current = null;
+        isModalOpenRef.current = false;
+      },
+    });
+  };
+
   const length = memo.length;
 
   return (
@@ -19,7 +49,7 @@ export default function TacticalMemo() {
         <div className="relative w-10/12">
           <Textarea
             value={memo}
-            onChange={(e) => setMemo(e.target.value)}
+            onChange={(e) => handleChange(e.target.value)}
             placeholder="전술을 입력해 주세요"
             maxLength={MAX_LENGTH}
             onFocus={() => setIsFocused(true)}
