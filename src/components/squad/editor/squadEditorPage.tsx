@@ -3,6 +3,8 @@ import FormationSelect from "./formationSelect";
 import CoachImageControl from "./coachImageControl";
 import SquadActions from "./squadActions";
 import TacticalMemo from "./tacticalMemo";
+import SquadEditorIntro from "./squadEditorIntro";
+import SquadEditorProgress from "./squadEditorProgress";
 
 export default function SquadEditorPage() {
   return (
@@ -10,6 +12,8 @@ export default function SquadEditorPage() {
       <Pitch />
 
       <div className="space-y-4">
+        <SquadEditorIntro />
+        <SquadEditorProgress />
         <FormationSelect />
         <CoachImageControl />
         <TacticalMemo />
