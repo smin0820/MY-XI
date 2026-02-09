@@ -1,37 +1,17 @@
 import { CheckCircle2, Circle } from "lucide-react";
-import {
-  useCoachImage,
-  useSquadFormation,
-  useSquadMemo,
-  useSquadSlots,
-  useSquadTitle,
-} from "@/store/squadEditor";
-
-const MAX_MEMO = 1000;
+import { useCanSaveSquad, useSquadProgress } from "@/store/squadEditor";
 
 export default function SquadEditorProgress() {
-  const formation = useSquadFormation();
-  const slots = useSquadSlots();
-  const title = useSquadTitle();
-  const coachImage = useCoachImage();
-  const memo = useSquadMemo();
-
-  const filledCount = slots.filter((s) => s.playerId !== null).length;
-  const isAllPlayersFilled = filledCount === 11;
-
-  const hasFormation = !!formation;
-  const hasTitle = title.trim().length > 0;
-  const hasCoachImage = !!coachImage?.previewUrl;
-  const hasMemo = memo.trim().length > 0;
-  const isMemoValid = memo.length <= MAX_MEMO;
-
-  const canSave =
-    hasFormation &&
-    isAllPlayersFilled &&
-    hasTitle &&
-    hasCoachImage &&
-    hasMemo &&
-    isMemoValid;
+  const canSave = useCanSaveSquad();
+  const {
+    filledCount,
+    hasFormation,
+    isAllPlayersFilled,
+    hasTitle,
+    hasCoachImage,
+    hasMemo,
+    isMemoValid,
+  } = useSquadProgress();
 
   const items = [
     { label: "포메이션 선택", done: hasFormation },
