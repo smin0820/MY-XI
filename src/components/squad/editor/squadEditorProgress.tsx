@@ -1,8 +1,7 @@
 import { CheckCircle2, Circle } from "lucide-react";
-import { useCanSaveSquad, useSquadProgress } from "@/store/squadEditor";
+import { useSquadProgress } from "@/store/squadEditor";
 
 export default function SquadEditorProgress() {
-  const canSave = useCanSaveSquad();
   const {
     filledCount,
     hasFormation,
@@ -11,6 +10,7 @@ export default function SquadEditorProgress() {
     hasCoachImage,
     hasMemo,
     isMemoValid,
+    canSave,
   } = useSquadProgress();
 
   const items = [

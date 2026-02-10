@@ -201,30 +201,6 @@ export const useIsSaving = () => {
   return useSquadEditorStore((s) => s.isSaving);
 };
 
-/** 스쿼드 저장 가능 여부 */
-export const useCanSaveSquad = () =>
-  useSquadEditorStore((s) => {
-    const filledCount = s.slots.filter((x) => x.playerId !== null).length;
-
-    const hasFormation = !!s.formation;
-    const isAllPlayersFilled = s.slots.length === 11 && filledCount === 11;
-    const hasTitle = s.title.trim().length > 0;
-    const hasCoachImage = !!s.coachImage?.previewUrl;
-
-    const hasMemo = s.memo.trim().length > 0;
-    const isMemoValid = s.memo.length <= MAX_MEMO;
-
-    return (
-      hasFormation &&
-      isAllPlayersFilled &&
-      hasTitle &&
-      hasCoachImage &&
-      hasMemo &&
-      isMemoValid
-    );
-  });
-
-/** 진행도 계산 */
 export const useSquadProgress = () =>
   useSquadEditorStore(
     useShallow((s) => {
@@ -236,7 +212,15 @@ export const useSquadProgress = () =>
       const hasCoachImage = !!s.coachImage?.previewUrl;
 
       const hasMemo = s.memo.trim().length > 0;
-      const isMemoValid = s.memo.length <= 1000;
+      const isMemoValid = s.memo.length <= MAX_MEMO;
+
+      const canSave =
+        hasFormation &&
+        isAllPlayersFilled &&
+        hasTitle &&
+        hasCoachImage &&
+        hasMemo &&
+        isMemoValid;
 
       return {
         filledCount,
@@ -246,6 +230,7 @@ export const useSquadProgress = () =>
         hasCoachImage,
         hasMemo,
         isMemoValid,
+        canSave,
       };
     }),
   );
